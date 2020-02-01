@@ -21,6 +21,7 @@ soup = BeautifulSoup(source, 'lxml')
 # attempt to get article title
 realTitle = soup.find('h1')
 
+#initiate filename for opening at end
 fileName = ''
 
 #if title found use as document name and add to top of document
@@ -38,6 +39,7 @@ if(realTitle != None):
     file.write(title)
     file.write('\n\n\n')
 
+    #file name for os to open the txt document at the end
     fileName = path+finalTitle+fileType
 
 else:
@@ -48,6 +50,7 @@ else:
     #create document in specified path
     file = open(path+title+fileType, 'w')
 
+    #file name for os to open the txt document at the end
     fileName = path+title+fileType
 
 #write the article to the text file
