@@ -76,5 +76,6 @@ d = datetime.datetime.today()
 file.write("retrieved on: " + d.strftime('%m-%d-%Y') + "\nretrieved from: " + url)
 
 file.close
-input("The Article is read to be Read. Press enter to open and read it.")
-os.startfile(fileName)
+response = input("The Article is ready to be Read. It has been saved to your News_Articles folder. Enter \"Y\" to open now or \"N\" to read later.")
+if(response == 'Y' or response == 'y'):
+    os.startfile(fileName)
