@@ -1,6 +1,8 @@
 ## script to download news articles from page html, created by pumpkinpie94 on 1/25/2020
 from bs4 import BeautifulSoup
 import requests
+import re
+import datetime
 
 #path and document extension
 path = "B:/articles/"
@@ -16,16 +18,21 @@ source = requests.get(url).text
 soup = BeautifulSoup(source, 'lxml')
 
 # attempt to get article title
-realTitle = soup.find('span', class_='ghost')
+realTitle = soup.find('h1')
 
 #if title found use as document name and add to top of document
 if(realTitle != None):
     #name and path of document
     title = realTitle.text
+    #remove special characters from title
+    docTitle = re.sub(r'\W+', ' ', title)
+    #replace spaces with underscores
+    finalTitle = docTitle.replace(' ', '_')
+    print('Saved As: ',finalTitle+fileType)
 
     #create document in specified path
-    file = open(path+title+fileType, 'w')
-    file.write(realTitle.text)
+    file = open(path+finalTitle+fileType, 'w')
+    file.write(title)
     file.write('\n\n\n')
 
 else:
@@ -36,13 +43,14 @@ else:
     #create document in specified path
     file = open(path+title+fileType, 'w')
 
-
-
-
+#write the article to the text file
 for text in soup.find_all('p'):
     file.write(text.text)
     file.write("\n\n")
 
+#put retrieved date and url at bottom of article
+d = datetime.datetime.today()
+file.write("retrieved on: " + d.strftime('%m-%d-%Y') + "\nretrieved from: " + url)
+
 file.close
-print("done writing file")
-#print(soup.prettify())
+input("done writing file")
