@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import datetime
+import os
 
 #path and document extension
 path = "B:/articles/"
@@ -20,6 +21,8 @@ soup = BeautifulSoup(source, 'lxml')
 # attempt to get article title
 realTitle = soup.find('h1')
 
+fileName = ''
+
 #if title found use as document name and add to top of document
 if(realTitle != None):
     #name and path of document
@@ -35,6 +38,8 @@ if(realTitle != None):
     file.write(title)
     file.write('\n\n\n')
 
+    fileName = path+finalTitle+fileType
+
 else:
     #name and path of document
     print("Sorry, I was not able to find the title of the article. Please supply one.")
@@ -42,6 +47,8 @@ else:
 
     #create document in specified path
     file = open(path+title+fileType, 'w')
+
+    fileName = path+title+fileType
 
 #write the article to the text file
 for text in soup.find_all('p'):
@@ -53,4 +60,5 @@ d = datetime.datetime.today()
 file.write("retrieved on: " + d.strftime('%m-%d-%Y') + "\nretrieved from: " + url)
 
 file.close
-input("done writing file")
+input("The Article is read to be Read. Press enter to open and read it.")
+os.startfile(fileName)
