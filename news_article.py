@@ -1,4 +1,4 @@
-## script to download news articles from page html, created by pumpkinpie94 on 1/25/2020
+## script to download news articles from page html, created by pumpkinpie94 on 2/1/2020
 from bs4 import BeautifulSoup
 import requests
 import re
