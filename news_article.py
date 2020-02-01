@@ -4,10 +4,23 @@ import requests
 import re
 import datetime
 import os
+from pathlib import Path
 
 #path and document extension
-path = "B:/articles/"
+home = str(Path.home())
+userFolder = home + '/Documents'
+finalFolder = userFolder + '/News_Articles/'
 fileType = '.txt'
+
+with os.scandir(userFolder) as drive:
+    folder_exists = 0
+    for folder in drive:
+        if(folder.name == 'News_Articles'):
+            folder_exists = 1
+            break
+    if(folder_exists != 1):
+        os.mkdir(userFolder+'/News_Articles')
+
 
 #get url from user
 url = input("url of article:")
@@ -35,12 +48,12 @@ if(realTitle != None):
     print('Saved As: ',finalTitle+fileType)
 
     #create document in specified path
-    file = open(path+finalTitle+fileType, 'w')
+    file = open(finalFolder+finalTitle+fileType, 'w')
     file.write(title)
     file.write('\n\n\n')
 
     #file name for os to open the txt document at the end
-    fileName = path+finalTitle+fileType
+    fileName = finalFolder+finalTitle+fileType
 
 else:
     #name and path of document
@@ -48,10 +61,10 @@ else:
     title = input("Title:")
 
     #create document in specified path
-    file = open(path+title+fileType, 'w')
+    file = open(finalFolder+title+fileType, 'w')
 
     #file name for os to open the txt document at the end
-    fileName = path+title+fileType
+    fileName = finalFolder+title+fileType
 
 #write the article to the text file
 for text in soup.find_all('p'):
